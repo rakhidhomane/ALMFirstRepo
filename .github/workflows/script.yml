@@ -1,4 +1,4 @@
-name: File Processing Workflow
+name: script file Processing Workflow
 
 on:
   push:
