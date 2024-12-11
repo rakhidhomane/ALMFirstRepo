@@ -3,8 +3,7 @@ name: File Processing Workflow
 on:
   push:
     branches:
-      - master
-      
+      - master   
   pull_request:
 
 jobs:
@@ -20,18 +19,15 @@ jobs:
       # Checkout the code
       - name: Checkout code
         uses: actions/checkout@v3
-
       # List files in the repo
       - name: List files in the repository
         run: ls -la
-
       # Use variables to read and process files
       - name: Read and process files
         run: |
           echo "Reading files using variables..."
           echo "Contents of $FILE1:" && cat $FILE1
           echo "Contents of $FILE2:" && cat $FILE2
-
       # Create a new file using variables
       - name: Create a new file
         run: |
@@ -39,7 +35,6 @@ jobs:
           cat $FILE1 $FILE2 > $OUTPUT_FILE
           echo "Combined file contents:"
           cat $OUTPUT_FILE
-
       # Save the new file as an artifact
       - name: Upload combined file
         uses: actions/upload-artifact@v3
