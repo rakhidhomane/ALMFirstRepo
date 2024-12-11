@@ -1,0 +1,76 @@
+name: sharingfileartifact File Processing Workflow
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  # Job 1: Generate artifact
+  generate-artifact:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Create file to share
+        run: |
+          echo "This is file1 content" > file1.txt
+          echo "This is file2 content" > file2.txt
+          echo "File1 content is: $(cat file1.txt)"
+          echo "File2 content is: $(cat file2.txt)"
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: input-files
+          path: |
+            file1.txt
+            file2.txt
+
+  # Job 2: Process files
+  file-processing:
+    runs-on: ubuntu-latest
+    needs: generate-artifact
+    env:
+      # Define variables
+      FILE1: file1.txt
+      FILE2: file2.txt
+      OUTPUT_FILE: output.txt
+
+    steps:
+      # Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Download artifacts from the previous job
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: input-files
+
+      # List files in the repo
+      - name: List files in the repository
+        run: ls -la
+
+      # Use variables to read and process files
+      - name: Read and process files
+        run: |
+          echo "Reading files using variables..."
+          echo "Contents of $FILE1:" && cat $FILE1
+          echo "Contents of $FILE2:" && cat $FILE2
+
+      # Create a new file using variables
+      - name: Create a new file
+        run: |
+          echo "Combining files into $OUTPUT_FILE..."
+          cat $FILE1 $FILE2 > $OUTPUT_FILE
+          echo "Combined file contents:" && cat $OUTPUT_FILE
+
+      # Save the new file as an artifact
+      - name: Upload combined file
+        uses: actions/upload-artifact@v3
+        with:
+          name: combined-file
+          path: output.txt
