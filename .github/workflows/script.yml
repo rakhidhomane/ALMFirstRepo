@@ -1,4 +1,4 @@
-name: script File Processing Workflow
+name: File Processing Workflow
 
 on:
   push:
@@ -10,27 +10,35 @@ jobs:
   file-processing:
     runs-on: ubuntu-latest
     env:
-      # Define variables
       FILE1: file1.txt
       FILE2: file2.txt
       OUTPUT_FILE: output.txt
 
     steps:
-      - name: Make scripts executable
-        run: chmod +x scripts/*.sh
-
       # Checkout the code
       - name: Checkout code
         uses: actions/checkout@v3
-      
+
+      # Debug file paths
+      - name: Debug file paths
+        run: |
+          echo "Listing root directory contents:"
+          ls -la
+          echo "Listing scripts directory contents:"
+          ls -la scripts
+
+      # Make scripts executable
+      - name: Make scripts executable
+        run: chmod +x scripts/*.sh
+
       # List files using script
       - name: List files in the repository
         run: ./scripts/list-files.sh
-      
+
       # Process files using script
       - name: Read and process files
         run: ./scripts/process-files.sh
-      
+
       # Save the new file as an artifact
       - name: Upload combined file
         uses: actions/upload-artifact@v3
