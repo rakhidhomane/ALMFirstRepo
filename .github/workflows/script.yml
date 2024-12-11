@@ -40,8 +40,8 @@ jobs:
         run: ./scripts/process-files.sh
 
       # Save the new file as an artifact
-      - name: Upload combined file
+      - name: Upload output.txt as an artifact
         uses: actions/upload-artifact@v3
         with:
-          name: combined-file
-          path: ${{ env.OUTPUT_FILE }}
+          name: output-file
+          path: output.txt
