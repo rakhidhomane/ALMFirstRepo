@@ -16,6 +16,9 @@ jobs:
       OUTPUT_FILE: output.txt
 
     steps:
+      - name: Make scripts executable
+        run: chmod +x scripts/*.sh
+
       # Checkout the code
       - name: Checkout code
         uses: actions/checkout@v3
