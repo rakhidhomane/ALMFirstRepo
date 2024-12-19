@@ -1,0 +1,11 @@
+name: Call Reusable Workflow
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:  # Allows manual execution
+
+jobs:
+  use-reusable-workflow:
+    uses: rakhidhomane/GithubActionsNodeReactProject/.github/workflows/triggerworkflow.yml@main
