@@ -1,6 +1,10 @@
 name: Default Variables Example
 
-on: push
+
+on:
+  push:
+    branches:
+      - main
   workflow_dispatch: 
 
 jobs:
