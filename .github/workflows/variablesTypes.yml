@@ -20,7 +20,8 @@ jobs:
       - name: Set Custom Variables
         env:
           MY_VAR: "Hello, World!"
-        run: echo "Custom Variable: $MY_VAR"
+        run: |
+           echo "Custom Variable: $MY_VAR"
 
         
         
