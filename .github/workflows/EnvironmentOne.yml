@@ -1,0 +1,43 @@
+# .github/workflows/use-environment.yml
+name: EnvironmentOne
+
+on:
+  push:
+    branches:
+      - main # Trigger on pushes to the main branch
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  use-environment:
+    name: Use Environment Variables
+    runs-on: ubuntu-latest
+
+    environment:
+      name: environmentone # Link the workflow to 'environmentone'
+
+    steps:
+      # Step 1: Check out the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Access environment variables
+      - name: Display environment variables
+        run: |
+          echo "Employee ID: $EMPLOYEEID"
+          echo "Email: $EMAILID"
+        env:
+          EMPLOYEE_ID: ${{ secrets.EMPLOYEEID }}
+          EMAIL: ${{ secrets.EMAILID }}
+
+      # Step 3: Use environment variables in a script
+      - name: Use variables in a script
+        run: |
+          if [[ -n "$EMPLOYEEID" && -n "$EMAILID" ]]; then
+            echo "Processing employee with ID $EMPLOYEEID and email $EMAILID"
+          else
+            echo "Missing required environment variables"
+            exit 1
+          fi
+        env:
+          EMPLOYEE_ID: ${{ secrets.EMPLOYEEID }}
+          EMAIL: ${{ secrets.EMAILID }}
