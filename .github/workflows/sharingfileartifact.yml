@@ -74,3 +74,4 @@ jobs:
         with:
           name: combined-file
           path: output.txt
+          retention-days: 7 # Artifacts will be deleted after 7 days
